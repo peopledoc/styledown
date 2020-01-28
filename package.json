@@ -20,7 +20,7 @@
     "cheerio": "0.17.0",
     "highlight.js": "^9.18.0",
     "pug": "^2.0.4",
-    "js-beautify": "1.5.1",
+    "js-beautify": "^1.10.0",
     "marked": "0.3.1",
     "mdconf": "0.0.2",
     "mdextract": "^1.0.0",
