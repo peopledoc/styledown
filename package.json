@@ -29,7 +29,6 @@
   "devDependencies": {
     "browserify": "^5.9.1",
     "chai": "^4.2.0",
-    "express": "~3.4.8",
     "mocha": "^7.0.0",
     "sinon": "^8.1.1"
   },
