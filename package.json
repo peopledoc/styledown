@@ -6,11 +6,10 @@
     "css",
     "styleguide"
   ],
-  "author": "Rico Sta. Cruz <hi@ricostacruz.com>",
   "version": "1.0.2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/styledown/styledown.git"
+    "url": "https://github.com/kamikillerto/styledown.git"
   },
   "main": "index",
   "scripts": {
