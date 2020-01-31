@@ -4,10 +4,11 @@
  *     var Styledown = require('styledown');
  */
 
-var Marked = require('marked'),
+const Marked = require('marked'),
     Cheerio = require('cheerio'),
     extend = require('util')._extend,
     mdextract = require('mdextract');
+const hljs = require('highlight.js');
 
 module.exports = Styledown;
 
@@ -261,11 +262,8 @@ Styledown.prototype = {
    */
 
   highlightHTML: function (html) {
-    var Hljs = require('highlight.js');
-
     html = this.prettyprint(html);
-    html = Hljs.highlight('html', html).value;
-    return html;
+    return hljs.highlight('html', html).value;
   },
 
   /**
