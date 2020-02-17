@@ -9,7 +9,7 @@
   "version": "1.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kamikillerto/styledown.git"
+    "url": "https://github.com/peopledoc/styledown.git"
   },
   "main": "index",
   "scripts": {
