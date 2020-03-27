@@ -34,4 +34,3 @@ instead of loaded via CDN, use:
 $ styledown --css > styledown.css
 $ styledown --js  > styledown.js
 ```
-

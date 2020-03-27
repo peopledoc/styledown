@@ -94,4 +94,3 @@ Use `styledown -i` to generate an HTML.
 ```bash
 $ styledown -i *.css > styleguides.html
 ```
-
