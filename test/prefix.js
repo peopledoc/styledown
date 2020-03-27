@@ -2,7 +2,7 @@ const setupTestEnv = require('./setup');
 
 describe('Prefix', function() {
   setupTestEnv(this);
-  
+
   describe('in options', function() {
     beforeEach(function() {
        this.load("## Hello\n### world\nthere", {
