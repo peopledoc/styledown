@@ -5,8 +5,6 @@ Write maintainable CSS styleguides efficiently using a Markdown.
 
 [![Example](https://cdn.rawgit.com/styledown/styledown/81a1d9c/examples/screenshot.png)][example]
 
-[![Status](http://img.shields.io/travis/styledown/styledown/master.svg?style=flat)](https://travis-ci.org/styledown/styledown "See test builds")
-
 ## Installation
 
 ``` bash
