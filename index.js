@@ -12,14 +12,16 @@ const hljs = require('highlight.js')
 
 module.exports = Styledown
 
-let {addClasses} = require('./lib/filters')
-let {sectionize} = require('./lib/filters')
-let {unpackExample} = require('./lib/filters')
-let {processConfig} = require('./lib/filters')
-let {removeConfig} = require('./lib/filters')
-let {isolateTextBlocks} = require('./lib/filters')
-let {htmlize} = require('./lib/utils')
-let {prefixClass} = require('./lib/utils')
+let {
+  addClasses,
+  sectionize,
+  unpackExample,
+  processConfig,
+  removeConfig,
+  isolateTextBlocks,
+} = require('./lib/filters')
+
+let {htmlize, prefixClass} = require('./lib/utils')
 
 /**
  * Styledown.parse() : Styledown.parse(source, [options])
