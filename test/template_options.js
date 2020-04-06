@@ -1,4 +1,4 @@
-const setupTestEnv = require('./setup');
+const setupTestEnv = require('./setup')
 
 const template = `
 # My guides
@@ -14,14 +14,14 @@ hello
     </html>
 ### Head
     <meta>
-`;
+`
 describe('Template', function() {
-  setupTestEnv(this);
+  setupTestEnv(this)
 
   beforeEach(function() {
-    this.load(template);
-  });
+    this.load(template)
+  })
   it('renders the template', function() {
-    expect(this.html).include('<woop>');
-  });
-});
+    expect(this.html).include('<woop>')
+  })
+})

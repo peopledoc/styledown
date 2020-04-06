@@ -4,6 +4,7 @@ module.exports = {
     node: true
   },
   globals: {
-    expect: true
+    expect: true,
+    result: true
   }
 }
