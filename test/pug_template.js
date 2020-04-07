@@ -1,4 +1,4 @@
-const setupTestEnv = require('./setup');
+const setupTestEnv = require('./setup')
 
 const templateHead = `
 hello
@@ -6,7 +6,7 @@ hello
 # Styleguide options
 ## Head
     script(src="helloworld.js")
-`;
+`
 
 const templateBody = `
 hello
@@ -16,25 +16,25 @@ hello
     link
 ## body
     #hello(sg-content)
-`;
+`
 
 describe('Pug Templates', function() {
-  setupTestEnv(this);
+  setupTestEnv(this)
 
   describe('head', function() {
     beforeEach(function() {
-      this.load(templateHead);
-    });
+      this.load(templateHead)
+    })
     it('render script', function() {
-      expect(this.$('script[src="helloworld.js"]')).have.length(1);
-    });
-  });
+      expect(this.$('script[src="helloworld.js"]')).have.length(1)
+    })
+  })
   describe('body', function() {
     beforeEach(function() {
-      this.load(templateBody);
-    });
+      this.load(templateBody)
+    })
     it('render body', function() {
-      expect(this.$('#hello')).have.length(1);
-    });
-  });
-});
+      expect(this.$('#hello')).have.length(1)
+    })
+  })
+})

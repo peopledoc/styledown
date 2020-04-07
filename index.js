@@ -7,19 +7,21 @@
 const Marked = require('marked'),
     Cheerio = require('cheerio'),
     extend = require('util')._extend,
-    mdextract = require('mdextract');
-const hljs = require('highlight.js');
+    mdextract = require('mdextract')
+const hljs = require('highlight.js')
 
-module.exports = Styledown;
+module.exports = Styledown
 
-var addClasses        = require('./lib/filters').addClasses;
-var sectionize        = require('./lib/filters').sectionize;
-var unpackExample     = require('./lib/filters').unpackExample;
-var processConfig     = require('./lib/filters').processConfig;
-var removeConfig      = require('./lib/filters').removeConfig;
-var isolateTextBlocks = require('./lib/filters').isolateTextBlocks;
-var htmlize           = require('./lib/utils').htmlize;
-var prefixClass       = require('./lib/utils').prefixClass;
+let {
+  addClasses,
+  sectionize,
+  unpackExample,
+  processConfig,
+  removeConfig,
+  isolateTextBlocks,
+} = require('./lib/filters')
+
+let {htmlize, prefixClass} = require('./lib/utils')
 
 /**
  * Styledown.parse() : Styledown.parse(source, [options])
@@ -57,15 +59,15 @@ var prefixClass       = require('./lib/utils').prefixClass;
  */
 
 Styledown.parse = function (source, options) {
-  return new Styledown(source, options).toHTML();
-};
+  return new Styledown(source, options).toHTML()
+}
 
 /**
  * Styledown.version:
  * The version number in semver format.
  */
 
-Styledown.version = require('./package.json').version;
+Styledown.version = require('./package.json').version
 
 /**
  * Styledown.defaults:
@@ -77,16 +79,16 @@ Styledown.version = require('./package.json').version;
  */
 
 Styledown.defaults = {
-  conf: function () {
-    return require('./lib/default_conf');
+  conf () {
+    return require('./lib/default_conf')
   },
-  js: function () {
-    return require('fs').readFileSync(__dirname + '/data/styledown.js');
+  js () {
+    return require('fs').readFileSync(`${__dirname  }/data/styledown.js`)
   },
-  css: function () {
-    return require('fs').readFileSync(__dirname + '/data/styledown.css');
+  css () {
+    return require('fs').readFileSync(`${__dirname  }/data/styledown.css`)
   },
-};
+}
 
 /***
  * Styledown() : new Styledown(source, [options])
@@ -100,11 +102,11 @@ Styledown.defaults = {
  */
 
 function Styledown (src, options) {
-  this.options = extend(extend({}, Styledown.defaultOptions), options || {});
-  this.raw = this.extract(src);
-  this.$ = Cheerio.load(Marked(this.raw));
+  this.options = extend(extend({}, Styledown.defaultOptions), options || {})
+  this.raw = this.extract(src)
+  this.$ = Cheerio.load(Marked(this.raw))
 
-  this.process();
+  this.process()
 }
 
 Styledown.defaultOptions = {
@@ -136,7 +138,7 @@ Styledown.defaultOptions = {
 
   /* Indentation spaces */
   indentSize: 2
-};
+}
 
 Styledown.prototype = {
 
@@ -148,22 +150,22 @@ Styledown.prototype = {
    *     => "<!doctype html><html>..."
    */
 
-  toHTML: function() {
-    var html = this.toBareHTML();
+  toHTML() {
+    let html = this.toBareHTML()
 
     if (this.options.head !== false) {
       // Unpack template
-      var $ = Cheerio.load(htmlize(this.options.template));
-      $('body').append(htmlize(this.options.body));
-      $('[sg-content]').append(html).removeAttr('sg-content');
-      $('html, body').addClass(this.options.prefix);
-      $('head').append(htmlize(this.options.head));
+      let $ = Cheerio.load(htmlize(this.options.template))
+      $('body').append(htmlize(this.options.body))
+      $('[sg-content]').append(html).removeAttr('sg-content')
+      $('html, body').addClass(this.options.prefix)
+      $('head').append(htmlize(this.options.head))
 
-      html = $.html();
+      html = $.html()
     }
 
-    html = this.prettyprint(html, { wrap_line_length: 0 });
-    return html;
+    html = this.prettyprint(html, { wrap_line_length: 0 })
+    return html
   },
 
   /**
@@ -174,8 +176,8 @@ Styledown.prototype = {
    *     => "<div><h3>Your document</h3>..."
    */
 
-  toBareHTML: function () {
-    return this.$.html();
+  toBareHTML () {
+    return this.$.html()
   },
 
   /**
@@ -183,20 +185,20 @@ Styledown.prototype = {
    * (private) extracts a Markdown source from given `src`.
    */
 
-  extract: function (src) {
-    var self = this;
+  extract (src) {
+    let self = this
 
     if (typeof src === 'string')
-      return src;
+      return src
 
     if (Array.isArray(src)) {
       return src.map(function (f) {
         if (self.options.inline || f.name && f.name.match(/(sass|scss|styl|less|css)$/)) {
-          return mdextract(f.data, { lang: 'css' }).toMarkdown();
+          return mdextract(f.data, { lang: 'css' }).toMarkdown()
         } else {
-            return f.data;
+            return f.data
         }
-      }).join("\n");
+      }).join("\n")
     }
   },
 
@@ -205,26 +207,26 @@ Styledown.prototype = {
    * (private) processes things. Done on the constructor.
    */
 
-  process: function () {
-    var highlightHTML = this.highlightHTML.bind(this);
-    var p = this.prefix.bind(this);
-    var src = this.raw;
+  process () {
+    let highlightHTML = this.highlightHTML.bind(this)
+    let p = this.prefix.bind(this)
+    let src = this.raw
 
-    processConfig(src, this.options);
-    removeConfig(this.$);
+    processConfig(src, this.options)
+    removeConfig(this.$)
 
-    var pre = this.options.prefix;
-    var $ = this.$;
+    // let pre = this.options.prefix
+    let {$} = this
 
-    addClasses($, p);
-    sectionize($, 'h3', p, { 'class': p('block') });
-    sectionize($, 'h2', p, { 'class': p('section'), until: 'h1, h2' });
+    addClasses($, p)
+    sectionize($, 'h3', p, { 'class': p('block') })
+    sectionize($, 'h2', p, { 'class': p('section'), until: 'h1, h2' })
 
     $('pre').each(function () {
-      unpackExample($(this), p, highlightHTML);
-    });
+      unpackExample($(this), p, highlightHTML)
+    })
 
-    isolateTextBlocks(this.$, p);
+    isolateTextBlocks(this.$, p)
   },
 
   /**
@@ -235,25 +237,25 @@ Styledown.prototype = {
    *     => "<div>\n  <a>hello</a>\n</div>"
    */
 
-  prettyprint: function (html, options) {
-    var beautify = require('js-beautify').html_beautify;
+  prettyprint (html, options) {
+    let beautify = require('js-beautify').html_beautify
 
-    var opts = {
+    let opts = {
       indent_size: this.options.indentSize,
       wrap_line_length: 120,
       unformatted: ['pre']
-    };
+    }
 
     // js-beautify sometimes trips when the first character isn't a <. not
     // sure... but might as well do this.
-    html = html.trim();
+    html = html.trim()
 
-    var output = beautify(html, extend(opts, options));
+    let output = beautify(html, extend(opts, options))
 
     // cheerio output tends to have a bunch of extra newlines. kill them.
-    output = output.replace(/\n\n+/g, "\n\n");
+    output = output.replace(/\n\n+/g, "\n\n")
 
-    return output;
+    return output
   },
 
   /**
@@ -261,9 +263,9 @@ Styledown.prototype = {
    * (private) Syntax highlighting helper
    */
 
-  highlightHTML: function (html) {
-    html = this.prettyprint(html);
-    return hljs.highlight('html', html).value;
+  highlightHTML (html) {
+    html = this.prettyprint(html)
+    return hljs.highlight('html', html).value
   },
 
   /**
@@ -274,9 +276,9 @@ Styledown.prototype = {
    *     => 'sg-block'
    */
 
-  prefix: function(klass) {
+  prefix(klass) {
     return klass ?
       prefixClass(klass, this.options.prefix) :
-      this.options.prefix;
+      this.options.prefix
   }
-};
+}

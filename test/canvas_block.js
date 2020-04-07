@@ -1,4 +1,4 @@
-const setupTestEnv = require('./setup');
+const setupTestEnv = require('./setup')
 
 const template = `
 ### Buttons
@@ -11,25 +11,25 @@ const template = `
     @example
     a.button.primary Primary button
     a.button.success Success button
-`;
+`
 
 describe('Canvas block', function() {
-  setupTestEnv(this);
+  setupTestEnv(this)
   beforeEach(function() {
-    this.load(template);
-  });
+    this.load(template)
+  })
   it('sg-code', function() {
-    expect(this.$('.sg-code').length).eq(2);
-  });
+    expect(this.$('.sg-code').length).eq(2)
+  })
   it('sg-canvas', function() {
-    expect(this.$('.sg-canvas').length).eq(2);
-  });
+    expect(this.$('.sg-canvas').length).eq(2)
+  })
   it('block length', function() {
-    expect(this.$('.sg-block')).have.length(2);
-  });
+    expect(this.$('.sg-block')).have.length(2)
+  })
  
   it('block classnames', function() {
-    expect(this.$('.sg-block').eq(0).is('.sg-section-buttons'))["true"];
-    expect(this.$('.sg-block').eq(1).is('.sg-section-colors'))["true"];
-  });
-});
+    expect(this.$('.sg-block').eq(0).is('.sg-section-buttons'))["true"]
+    expect(this.$('.sg-block').eq(1).is('.sg-section-colors'))["true"]
+  })
+})
