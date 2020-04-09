@@ -1,0 +1,8 @@
+/** # Rule
+  *
+  *   @example
+  *   include template.pug
+  */
+.rule {
+  background-color: red;
+}
