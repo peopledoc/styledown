@@ -9,7 +9,7 @@ const Cheerio = require('cheerio')
 const extend = require('util')._extend
 const mdextract = require('mdextract')
 const hljs = require('highlight.js')
-const beautify = require('js-beautify').html_beautify
+const beautify = require('js-beautify').html_beautify;
 
 const {
   addClasses,
@@ -34,12 +34,10 @@ class Styledown {
    * You may also use `Styledown.parse()` as a shorthand.
    */
   constructor(src, options) {
-
     this.options = extend(extend({}, Styledown.defaultOptions), options || {})
-    this.raw = this.extract(src)
-    this.$ = Cheerio.load(Marked(this.raw))
+    let raws = this.extract(src)
 
-    this.process()
+    this.raws = this.process(raws, this.options)
   }
 
   /**
@@ -51,21 +49,22 @@ class Styledown {
    */
 
   toHTML() {
-    let html = this.toBareHTML()
+    return this.raws.reduce((html, raw) => {
+      let rawHTML = raw.html
+      if (raw.config.head !== false) {
+        // Unpack template
+        let $ = Cheerio.load(htmlize(raw.config.template))
+        $('body').append(htmlize(raw.config.body))
+        $('[sg-content]').append(rawHTML).removeAttr('sg-content')
+        $('html, body').addClass(raw.config.prefix)
+        $('head').append(htmlize(raw.config.head))
 
-    if (this.options.head !== false) {
-      // Unpack template
-      let $ = Cheerio.load(htmlize(this.options.template))
-      $('body').append(htmlize(this.options.body))
-      $('[sg-content]').append(html).removeAttr('sg-content')
-      $('html, body').addClass(this.options.prefix)
-      $('head').append(htmlize(this.options.head))
+        rawHTML = $.html()
+      }
 
-      html = $.html()
-    }
-
-    html = this.prettyprint(html, { wrap_line_length: 0 })
-    return html
+      rawHTML = this.prettyprint(rawHTML, { wrap_line_length: 0 })
+      return `${html}${rawHTML}`
+    }, '')
   }
 
   /**
@@ -77,54 +76,90 @@ class Styledown {
    */
 
   toBareHTML () {
-    return this.$.html()
+    return this.raws.reduce((html, raw) => {
+      return `${html}${raw.html}`
+    }, '')
   }
 
   /**
-   * extract():
-   * (private) extracts a Markdown source from given `src`.
+   * @typedef ParsedFile
+   * @property {string} filePath - Path to the file relative to process.cwd()
+   * @property {string} html - file content converted to html using Marked
+   * @property {string} raw - File content without the css/scss...
+   */
+  /**
+   * Extract Markdown content from given `src` an generate html with it.
+   *
+   * @private
+   * @argument {string|string[]} src
+   * @returns {ParsedFile}
    */
 
   extract(src) {
-    if (typeof src === 'string')
-      return src
+
+    if (typeof src === 'string') {
+      return [{
+        filePath: '.',
+        html: Marked(src),
+        src
+      }]
+    }
 
     if (Array.isArray(src)) {
-      return src.map((f) => {
-        if (this.options.inline || f.name && f.name.match(/(sass|scss|styl|less|css)$/)) {
-          return mdextract(f.data, { lang: 'css' }).toMarkdown()
+      return src.map((file) => {
+        if (this.options.inline || file.name && file.name.match(/(sass|scss|styl|less|css)$/)) {
+          let src = mdextract(file.data, { lang: 'css' }).toMarkdown()
+          return {
+            filePath: file.name,
+            html: Marked(src),
+            src
+          }
         } else {
-            return f.data
+          return {
+            filePath: file.name,
+            src: file.data,
+            html: Marked(file.data)
+          }
         }
-      }).join("\n")
+      })
     }
   }
 
   /**
-   * process() : doc.process()
-   * (private) processes things. Done on the constructor.
+   * Process ParsedFiles to generate documentation pages with HTML highlighting and Pug rendering
+   *
+   * @private
+   * @argument {ParsedFile[]} raws
+   * @argument {object} options
    */
 
-  process() {
-    let highlightHTML = this.highlightHTML.bind(this)
-    let p = this.prefix.bind(this)
-    let src = this.raw
+  process(raws, options) {
+    return raws.map((raw) => {
+      let $ = Cheerio.load(raw.html)
+      let highlightHTML = this.highlightHTML.bind(this)
+      let p = this.prefix.bind(this)
 
-    processConfig(src, this.options)
-    removeConfig(this.$)
+      let config = processConfig(raw.src, options)
+      removeConfig($)
 
-    // let pre = this.options.prefix
-    let {$} = this
+      // let pre = this.options.prefix
 
-    addClasses($, p)
-    sectionize($, 'h3', p, { 'class': p('block') })
-    sectionize($, 'h2', p, { 'class': p('section'), until: 'h1, h2' })
+      addClasses($, p)
+      sectionize($, 'h3', p, { 'class': p('block') })
+      sectionize($, 'h2', p, { 'class': p('section'), until: 'h1, h2' })
 
-    $('pre').each(function () {
-      unpackExample($(this), p, highlightHTML)
+      $('pre').each(function () {
+        unpackExample($(this), p, highlightHTML, raw.filePath)
+      })
+
+      isolateTextBlocks($, p)
+      return {
+        filePath: raw.filePath,
+        src: raw.src,
+        html: $.html(),
+        config
+      }
     })
-
-    isolateTextBlocks(this.$, p)
   }
 
   /**
@@ -215,7 +250,6 @@ class Styledown {
  */
 
 Styledown.parse = function (source, options) {
-
   return new Styledown(source, options).toHTML()
 }
 
