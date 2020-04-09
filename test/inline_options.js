@@ -19,7 +19,7 @@ describe('Inline Options', function() {
   })
   // it('no errors', function() {});
   it('should remove config blocks', function() {
-    expect(this.$('h2#styleguide-options')).have.length(0)
+    expect(this.$('h1#styleguide-options')).have.length(0)
   })
   it('should have not much', function() {
     expect(this.$('body').text().trim()).match(/^My guides/)
