@@ -1,28 +1,218 @@
 /**
  * Styledown is available as a Node.js package.
  *
- *     var Styledown = require('styledown');
+ *     let Styledown = require('styledown');
  */
 
-const Marked = require('marked'),
-    Cheerio = require('cheerio'),
-    extend = require('util')._extend,
-    mdextract = require('mdextract')
+const Marked = require('marked')
+const Cheerio = require('cheerio')
+const extend = require('util')._extend
+const mdextract = require('mdextract')
 const hljs = require('highlight.js')
+const beautify = require('js-beautify').html_beautify;
 
-module.exports = Styledown
-
-let {
+const {
   addClasses,
   sectionize,
   unpackExample,
   processConfig,
   removeConfig,
-  isolateTextBlocks,
+  isolateTextBlocks
 } = require('./lib/filters')
+const { htmlize, prefixClass } = require('./lib/utils')
 
-let {htmlize, prefixClass} = require('./lib/utils')
 
+class Styledown {
+  /***
+   * Styledown() : new Styledown(source, [options])
+   * Parses the source `source` into a Styledown document. `source` can be a
+   * Markdown document.
+   *
+   *      doc = new Styledown(markdown);
+   *      doc.toHTML();
+   *
+   * You may also use `Styledown.parse()` as a shorthand.
+   */
+  constructor(src, options) {
+    this.options = extend(extend({}, Styledown.defaultOptions), options || {})
+    let raws = this.extract(src)
+
+    this.raws = this.process(raws, this.options)
+  }
+
+  /**
+   * toHTML() : doc.toHTML()
+   * Returns the full HTML source based on the Styledown document.
+   *
+   *     doc.toHTML()
+   *     => "<!doctype html><html>..."
+   */
+
+  toHTML() {
+    let html = this.raws.reduce((html, raw) => `${html}${raw.html}`, '')
+    let config = this.raws.reduce((finalConfig, raw) => {
+      return extend(finalConfig, raw.config)
+    }, this.options)
+
+    if (config.head !== false) {
+      // Unpack template
+      let $ = Cheerio.load(htmlize(config.template))
+      $('body').append(htmlize(config.body))
+      $('[sg-content]').append(html).removeAttr('sg-content')
+      $('html, body').addClass(config.prefix)
+      $('head').append(htmlize(config.head))
+
+      html = $.html()
+    }
+    return this.prettyprint(html, { wrap_line_length: 0, ...config })
+  }
+
+  /**
+   * toBareHTML() : doc.toBareHTML()
+   * Returns the bare HTML without the head/body templates.
+   *
+   *     doc.toBareHTML()
+   *     => "<div><h3>Your document</h3>..."
+   */
+
+  toBareHTML () {
+    return this.raws.reduce((html, raw) => {
+      return `${html}${raw.html}`
+    }, '')
+  }
+
+  /**
+   * @typedef ParsedFile
+   * @property {string} filePath - Path to the file relative to process.cwd()
+   * @property {string} html - file content converted to html using Marked
+   * @property {string} raw - File content without the css/scss...
+   */
+  /**
+   * Extract Markdown content from given `src` an generate html with it.
+   *
+   * @private
+   * @argument {string|string[]} src
+   * @returns {ParsedFile}
+   */
+
+  extract(src) {
+
+    if (typeof src === 'string') {
+      return [{
+        filePath: '.',
+        html: Marked(src),
+        src
+      }]
+    }
+
+    if (Array.isArray(src)) {
+      return src.map((file) => {
+        if (this.options.inline || file.name && file.name.match(/(sass|scss|styl|less|css)$/)) {
+          let src = mdextract(file.data, { lang: 'css' }).toMarkdown()
+          return {
+            filePath: file.name,
+            html: Marked(src),
+            src
+          }
+        } else {
+          return {
+            filePath: file.name,
+            src: file.data,
+            html: Marked(file.data)
+          }
+        }
+      })
+    }
+  }
+
+  /**
+   * Process ParsedFiles to generate documentation pages with HTML highlighting and Pug rendering
+   *
+   * @private
+   * @argument {ParsedFile[]} raws
+   * @argument {object} options
+   */
+
+  process(raws, options) {
+    return raws.map((raw) => {
+      let $ = Cheerio.load(raw.html)
+      let highlightHTML = this.highlightHTML.bind(this)
+      let p = this.prefix.bind(this)
+
+      let config = processConfig(raw.src, options)
+      removeConfig($)
+
+      // let pre = this.options.prefix
+
+      addClasses($, p)
+      sectionize($, 'h3', p, { 'class': p('block') })
+      sectionize($, 'h2', p, { 'class': p('section'), until: 'h1, h2' })
+
+      $('pre').each(function () {
+        unpackExample($(this), p, highlightHTML, raw.filePath)
+      })
+
+      isolateTextBlocks($, p)
+      return {
+        filePath: raw.filePath,
+        src: raw.src,
+        html: $.html(),
+        config
+      }
+    })
+  }
+
+  /**
+   * prettyprint() : doc.prettyprint(html)
+   * (private) Reindents given `html` based on the indent size option.
+   *
+   *     doc.prettyprint('<div><a>hello</a></div>')
+   *     => "<div>\n  <a>hello</a>\n</div>"
+   */
+
+  prettyprint(html, options) {
+
+    let opts = {
+      indent_size: this.options.indentSize,
+      wrap_line_length: 120,
+      unformatted: ['pre']
+    }
+    // js-beautify sometimes trips when the first character isn't a <. not
+    // sure... but might as well do this.
+    html = html.trim()
+
+    let output = beautify(html, extend(opts, options))
+
+    // cheerio output tends to have a bunch of extra newlines. kill them.
+    output = output.replace(/\n\n+/g, "\n\n")
+
+    return output
+  }
+
+  /**
+   * highlightHTML():
+   * (private) Syntax highlighting helper
+   */
+
+  highlightHTML(html) {
+    html = this.prettyprint(html)
+    return hljs.highlight('html', html).value
+  }
+
+  /**
+   * prefix():
+   * (private) Prefix classnames. Takes `options.prefix` into account.
+   *
+   *     prefix('block')
+   *     => 'sg-block'
+   */
+
+  prefix(klass) {
+    return klass ?
+      prefixClass(klass, this.options.prefix) :
+      this.options.prefix
+  }
+}
 /**
  * Styledown.parse() : Styledown.parse(source, [options])
  * Generates HTML from a given `source`.
@@ -38,7 +228,7 @@ let {htmlize, prefixClass} = require('./lib/utils')
  * extracted from those with that end in CSS extensions (css, less, sass, etc),
  * while the rest are assumed to be Markdown documents.
  *
- *     var docs = [
+ *     let docs = [
  *       { name: 'css/style.css', data: '...' },
  *       { name: 'config.md', data: '...' }
  *     ];
@@ -87,26 +277,7 @@ Styledown.defaults = {
   },
   css () {
     return require('fs').readFileSync(`${__dirname  }/data/styledown.css`)
-  },
-}
-
-/***
- * Styledown() : new Styledown(source, [options])
- * Parses the source `source` into a Styledown document. `source` can be a
- * Markdown document.
- *
- *      doc = new Styledown(markdown);
- *      doc.toHTML();
- *
- * You may also use `Styledown.parse()` as a shorthand.
- */
-
-function Styledown (src, options) {
-  this.options = extend(extend({}, Styledown.defaultOptions), options || {})
-  this.raw = this.extract(src)
-  this.$ = Cheerio.load(Marked(this.raw))
-
-  this.process()
+  }
 }
 
 Styledown.defaultOptions = {
@@ -140,145 +311,4 @@ Styledown.defaultOptions = {
   indentSize: 2
 }
 
-Styledown.prototype = {
-
-  /**
-   * toHTML() : doc.toHTML()
-   * Returns the full HTML source based on the Styledown document.
-   *
-   *     doc.toHTML()
-   *     => "<!doctype html><html>..."
-   */
-
-  toHTML() {
-    let html = this.toBareHTML()
-
-    if (this.options.head !== false) {
-      // Unpack template
-      let $ = Cheerio.load(htmlize(this.options.template))
-      $('body').append(htmlize(this.options.body))
-      $('[sg-content]').append(html).removeAttr('sg-content')
-      $('html, body').addClass(this.options.prefix)
-      $('head').append(htmlize(this.options.head))
-
-      html = $.html()
-    }
-
-    html = this.prettyprint(html, { wrap_line_length: 0 })
-    return html
-  },
-
-  /**
-   * toBareHTML() : doc.toBareHTML()
-   * Returns the bare HTML without the head/body templates.
-   *
-   *     doc.toBareHTML()
-   *     => "<div><h3>Your document</h3>..."
-   */
-
-  toBareHTML () {
-    return this.$.html()
-  },
-
-  /**
-   * extract():
-   * (private) extracts a Markdown source from given `src`.
-   */
-
-  extract (src) {
-    let self = this
-
-    if (typeof src === 'string')
-      return src
-
-    if (Array.isArray(src)) {
-      return src.map(function (f) {
-        if (self.options.inline || f.name && f.name.match(/(sass|scss|styl|less|css)$/)) {
-          return mdextract(f.data, { lang: 'css' }).toMarkdown()
-        } else {
-            return f.data
-        }
-      }).join("\n")
-    }
-  },
-
-  /**
-   * process() : doc.process()
-   * (private) processes things. Done on the constructor.
-   */
-
-  process () {
-    let highlightHTML = this.highlightHTML.bind(this)
-    let p = this.prefix.bind(this)
-    let src = this.raw
-
-    processConfig(src, this.options)
-    removeConfig(this.$)
-
-    // let pre = this.options.prefix
-    let {$} = this
-
-    addClasses($, p)
-    sectionize($, 'h3', p, { 'class': p('block') })
-    sectionize($, 'h2', p, { 'class': p('section'), until: 'h1, h2' })
-
-    $('pre').each(function () {
-      unpackExample($(this), p, highlightHTML)
-    })
-
-    isolateTextBlocks(this.$, p)
-  },
-
-  /**
-   * prettyprint() : doc.prettyprint(html)
-   * (private) Reindents given `html` based on the indent size option.
-   *
-   *     doc.prettyprint('<div><a>hello</a></div>')
-   *     => "<div>\n  <a>hello</a>\n</div>"
-   */
-
-  prettyprint (html, options) {
-    let beautify = require('js-beautify').html_beautify
-
-    let opts = {
-      indent_size: this.options.indentSize,
-      wrap_line_length: 120,
-      unformatted: ['pre']
-    }
-
-    // js-beautify sometimes trips when the first character isn't a <. not
-    // sure... but might as well do this.
-    html = html.trim()
-
-    let output = beautify(html, extend(opts, options))
-
-    // cheerio output tends to have a bunch of extra newlines. kill them.
-    output = output.replace(/\n\n+/g, "\n\n")
-
-    return output
-  },
-
-  /**
-   * highlightHTML():
-   * (private) Syntax highlighting helper
-   */
-
-  highlightHTML (html) {
-    html = this.prettyprint(html)
-    return hljs.highlight('html', html).value
-  },
-
-  /**
-   * prefix():
-   * (private) Prefix classnames. Takes `options.prefix` into account.
-   *
-   *     prefix('block')
-   *     => 'sg-block'
-   */
-
-  prefix(klass) {
-    return klass ?
-      prefixClass(klass, this.options.prefix) :
-      this.options.prefix
-  }
-}
+module.exports = Styledown

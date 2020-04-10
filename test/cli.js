@@ -25,7 +25,7 @@ describe('CLI:', function() {
       expect(result.out).include('h2.sg')
     })
   })
-  
+
   describe('--js', function() {
     run('--js')
     success()
@@ -50,6 +50,7 @@ describe('CLI:', function() {
       expect(result.out).match(/<p[^>]*>there<\/p>/)
     })
   })
+
   describe('pipe --inline', function() {
     pipe("/**\n * hi:\n * there\n */", ['--inline'])
     success()
@@ -61,7 +62,7 @@ describe('CLI:', function() {
 
   describe('--output', function() {
     let fname = randomfile()
-    run(`test/fixtures/basic-1.md -o ${  fname}`)
+    run(`test/fixtures/basic/basic-1.md -o ${  fname}`)
     success()
     after(function() {
       if (fs.existsSync(fname)) {
@@ -83,7 +84,7 @@ describe('CLI:', function() {
   })
 
   describe('using a single .md filename', function() {
-    run('test/fixtures/basic-1.md')
+    run('test/fixtures/basic/basic-1.md')
     success()
     it('works', function() {
       expect(result.out).match(/<h3[^>]*>One<\/h3>/)
@@ -91,7 +92,7 @@ describe('CLI:', function() {
     })
   })
   describe('using two .md files', function() {
-    run('test/fixtures/basic-1.md test/fixtures/basic-2.md')
+    run('test/fixtures/basic/basic-1.md test/fixtures/basic/basic-2.md')
     success()
     it('produces output based on the first file', function() {
       expect(result.out).match(/<h3[^>]*>One<\/h3>/)
@@ -103,7 +104,7 @@ describe('CLI:', function() {
     })
   })
   describe('using .md an .css together', function() {
-    run('test/fixtures/basic-1.md test/fixtures/inline.css')
+    run('test/fixtures/basic/basic-1.md test/fixtures/basic/inline.css')
     success()
     it('produces output based on the first file', function() {
       expect(result.out).match(/<h3[^>]*>One<\/h3>/)
@@ -112,6 +113,24 @@ describe('CLI:', function() {
     it('produces output based on the second file', function() {
       expect(result.out).match(/<h3[^>]*>Inline<\/h3>/)
       expect(result.out).match(/<p[^>]*>inline inline inline<\/p>/)
+    })
+  })
+
+  describe('can use Pug import feature', function() {
+    run('test/fixtures/include/readme.md')
+    success()
+    it('output contain pug template', function() {
+      expect(result.out).match(/<div class="rule" id="rule_container">/)
+      expect(result.out).match(/<p id="rule_content">Rule example<\/p>/)
+    })
+  })
+
+  describe('can use Pug import feature with css file', function() {
+    run('test/fixtures/include/main.css')
+    success()
+    it('output contain pug template', function() {
+      expect(result.out).match(/<div class="rule" id="rule_container">/)
+      expect(result.out).match(/<p id="rule_content">Rule example<\/p>/)
     })
   })
 })
