@@ -49,22 +49,22 @@ class Styledown {
    */
 
   toHTML() {
-    return this.raws.reduce((html, raw) => {
-      let rawHTML = raw.html
-      if (raw.config.head !== false) {
-        // Unpack template
-        let $ = Cheerio.load(htmlize(raw.config.template))
-        $('body').append(htmlize(raw.config.body))
-        $('[sg-content]').append(rawHTML).removeAttr('sg-content')
-        $('html, body').addClass(raw.config.prefix)
-        $('head').append(htmlize(raw.config.head))
+    let html = this.raws.reduce((html, raw) => `${html}${raw.html}`, '')
+    let config = this.raws.reduce((finalConfig, raw) => {
+      return extend(finalConfig, raw.config)
+    }, this.options)
 
-        rawHTML = $.html()
-      }
+    if (config.head !== false) {
+      // Unpack template
+      let $ = Cheerio.load(htmlize(config.template))
+      $('body').append(htmlize(config.body))
+      $('[sg-content]').append(html).removeAttr('sg-content')
+      $('html, body').addClass(config.prefix)
+      $('head').append(htmlize(config.head))
 
-      rawHTML = this.prettyprint(rawHTML, { wrap_line_length: 0 })
-      return `${html}${rawHTML}`
-    }, '')
+      html = $.html()
+    }
+    return this.prettyprint(html, { wrap_line_length: 0, ...config })
   }
 
   /**
@@ -177,7 +177,6 @@ class Styledown {
       wrap_line_length: 120,
       unformatted: ['pre']
     }
-
     // js-beautify sometimes trips when the first character isn't a <. not
     // sure... but might as well do this.
     html = html.trim()
