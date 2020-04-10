@@ -1,11 +1,7 @@
 (function () {
-  function ready(fn) {
+  function ready(callback) {
     if (document.addEventListener) {
-      document.addEventListener('DOMContentLoaded', fn)
-    } else {
-      document.attachEvent('onreadystatechange', function() {
-        if (document.readyState === 'interactive') fn()
-      })
+      document.addEventListener('DOMContentLoaded', callback)
     }
   }
 
@@ -22,15 +18,15 @@
 
   function addButton (parent, code) {
     // hide the <pre>
-    code.className += ' sg-hidden'
+    code.classList.add('sg-hidden')
 
     // create the <button>
     let btn = document.createElement('button')
-    btn.className = 'sg-expando sg-expando-reveal'
+    btn.classList.add('sg-expando', 'sg-expando-reveal')
     parent.appendChild(btn)
 
     btn.addEventListener('click', function () {
-      if (~code.className.indexOf('sg-hidden')) {
+      if (code.className.indexOf('sg-hidden') !== -1) {
         code.className = code.className.replace('sg-hidden', 'sg-visible')
         btn.className  = btn.className.replace('sg-expando-reveal', 'sg-expando-contract')
       } else {
