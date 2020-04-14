@@ -2,15 +2,15 @@
  * # Styleguide options
  *
  * ### Head
- * 
+ *
  *     meta(name="viewport" content="width=device-width, initial-scale=1")
  *     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
  *     link(rel='stylesheet' href='_extras.css')
- *     link(rel='stylesheet' href='../../data/styledown.css')
- *     script(src='../../data/styledown.js')
- * 
+ *     link(rel='stylesheet' href='../../assets/styledown.css')
+ *     script(src='../../assets/styledown.js')
+ *
  * ### Body
- * 
+ *
  *     .jumbotron.jumbotron-styleguide
  *       .container
  *         h1 Bootstrap styleguides

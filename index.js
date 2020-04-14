@@ -276,10 +276,10 @@ Styledown.defaults = {
     return default_conf
   },
   js () {
-    return readFileSync(`${__dirname  }/data/styledown.js`)
+    return readFileSync(`${__dirname  }/assets/styledown.js`)
   },
   css () {
-    return readFileSync(`${__dirname  }/data/styledown.css`)
+    return readFileSync(`${__dirname  }/assets/styledown.css`)
   }
 }
 
