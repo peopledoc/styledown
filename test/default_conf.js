@@ -6,14 +6,11 @@ describe('Styledown.defaultconf', function() {
   beforeEach(function() {
     this.conf = Styledown.defaults.conf()
   })
-  it('is based on the version', function() {
-    let { version } = Styledown
-    expect(this.conf).include(`styledown/v${version}`)
+  it('js and css are inlined', function() {
+    expect(this.conf).include(`<script data-styledownjs>`)
+    expect(this.conf).include(`<style data-styledowncss>`)
   })
   it('works', function() {
     expect(this.conf).be.a('string')
-  })
-  it('has cdn urls', function() {
-    expect(this.conf).include('cdn.rawgit.com/')
   })
 })
