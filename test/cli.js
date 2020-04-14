@@ -42,24 +42,6 @@ describe('CLI:', function() {
     })
   })
 
-  describe('pipe', function() {
-    pipe('### hi\nthere\n')
-    success()
-    it('works', function() {
-      expect(result.out).match(/<h3[^>]*>hi<\/h3>/)
-      expect(result.out).match(/<p[^>]*>there<\/p>/)
-    })
-  })
-
-  describe('pipe --inline', function() {
-    pipe("/**\n * hi:\n * there\n */", ['--inline'])
-    success()
-    it('works', function() {
-      expect(result.out).match(/<h3[^>]*>hi<\/h3>/)
-      expect(result.out).match(/<p[^>]*>there<\/p>/)
-    })
-  })
-
   describe('--output', function() {
     let fname = randomfile()
     run(`test/fixtures/basic/basic-1.md -o ${  fname}`)
