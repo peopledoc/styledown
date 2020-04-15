@@ -9,7 +9,10 @@ const Cheerio = require('cheerio')
 const extend = require('util')._extend
 const mdextract = require('mdextract')
 const hljs = require('highlight.js')
-const beautify = require('js-beautify').html_beautify;
+const beautify = require('js-beautify').html_beautify
+const { version } = require('./package.json')
+const { readFileSync } = require('fs')
+const default_conf = require('./lib/default_conf.js')
 
 const {
   addClasses,
@@ -257,7 +260,7 @@ Styledown.parse = function (source, options) {
  * The version number in semver format.
  */
 
-Styledown.version = require('./package.json').version
+Styledown.version = version
 
 /**
  * Styledown.defaults:
@@ -270,13 +273,13 @@ Styledown.version = require('./package.json').version
 
 Styledown.defaults = {
   conf () {
-    return require('./lib/default_conf')
+    return default_conf
   },
   js () {
-    return require('fs').readFileSync(`${__dirname  }/data/styledown.js`)
+    return readFileSync(`${__dirname  }/data/styledown.js`)
   },
   css () {
-    return require('fs').readFileSync(`${__dirname  }/data/styledown.css`)
+    return readFileSync(`${__dirname  }/data/styledown.css`)
   }
 }
 

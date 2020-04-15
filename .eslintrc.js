@@ -4,5 +4,7 @@ module.exports = {
   env: {
     node: true
   },
-  rules: {}
+  rules: {
+    'global-require': 'error'
+  }
 }

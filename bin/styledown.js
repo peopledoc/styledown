@@ -1,14 +1,18 @@
 #!/usr/bin/env node
-let Styledown = require('..'),
-    read = require('read-input')
+const Styledown = require('../index')
+const read = require('read-input')
+const minimist = require('minimist')
+const { basename } = require('path')
+const { version } = require('../package.json')
+const { writeFileSync } = require('fs')
 
-let args = require('minimist')(process.argv.slice(2), {
+const args = minimist(process.argv.slice(2), {
   boolean: ['inline', 'css', 'js', 'conf', 'quiet'],
   alias: { h: 'help', v: 'version', i: 'inline', o: 'output', q: 'quiet' }
 })
 
 if (args.help) {
-  let cmd = require('path').basename(process.argv[1])
+  let cmd = basename(process.argv[1])
   console.log([
       'Usage:',
       `    ${cmd} [options] FILE`,
@@ -29,7 +33,7 @@ if (args.help) {
 }
 
 if (args.version) {
-  console.log(require('../package.json').version)
+  console.log(version)
   process.exit()
 }
 
@@ -71,7 +75,7 @@ read(args._, function (err, res) {
 
 function print (html, ms) {
   if (args.output) {
-    require('fs').writeFileSync(args.output, html)
+    writeFileSync(args.output, html)
 
     if (!args.quiet) {
       let tip = `${  args.output}`
