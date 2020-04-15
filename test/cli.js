@@ -2,7 +2,7 @@ const setupTestEnv = require('./setup')
 const { run, pipe, success } = require('./helpers/cli')
 const {randomfile} = require('./helpers/file')
 const fs = require('fs')
-
+const { version } = require('../package.json')
 describe('CLI:', function() {
   setupTestEnv(this)
 
@@ -38,7 +38,7 @@ describe('CLI:', function() {
     run('--version')
     success()
     it('prints the version', function() {
-      expect(result.out).include(require('../package.json').version)
+      expect(result.out).include(version)
     })
   })
 

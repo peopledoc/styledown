@@ -8,7 +8,7 @@ describe('Styledown.defaultconf', function() {
   })
   it('is based on the version', function() {
     let { version } = Styledown
-    expect(this.conf).include(`styledown/v${  version}`)
+    expect(this.conf).include(`styledown/v${version}`)
   })
   it('works', function() {
     expect(this.conf).be.a('string')
@@ -17,4 +17,3 @@ describe('Styledown.defaultconf', function() {
     expect(this.conf).include('cdn.rawgit.com/')
   })
 })
-0

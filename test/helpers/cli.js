@@ -1,6 +1,6 @@
 /* jshint expr: true */
 
-let {exec} = require('child_process')
+const { exec, spawn } = require('child_process')
 exports.bin = './bin/styledown.js'
 
 /**
@@ -58,7 +58,6 @@ exports.success = function () {
 
 exports.pipe = function (input, args) {
   before(function (next) {
-    let {spawn} = require('child_process')
     let child = spawn(exports.bin, args || [], { stdio: 'pipe' })
     let result = global.result = { out: '', stderr: '' }
 
