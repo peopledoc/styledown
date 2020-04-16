@@ -1,4 +1,4 @@
-styledown = ../../bin/styledown
+styledown = ../../bin/styledown.js
 
 index.html: \
 	buttons.css \
