@@ -10,28 +10,6 @@ const args = minimist(process.argv.slice(2), {
   boolean: ['inline', 'css', 'js', 'conf', 'quiet'],
   alias: { h: 'help', v: 'version', i: 'inline', o: 'output', q: 'quiet' }
 })
-
-if (args.help) {
-  let cmd = basename(process.argv[1])
-  console.log([
-      'Usage:',
-      `    ${cmd} [options] FILE`,
-      `    ... | ${cmd} [options]`,
-      '',
-      'Options:',
-      '    -h, --help           print usage information',
-      '    -v, --version        show version info and exit',
-      '    -i, --inline         force extracts from inline CSS comments (for piping)',
-      '    -o, --output FILE    write output a file',
-      '',
-      'Support files:',
-      `    ${cmd} --conf > config.md`,
-      `    ${cmd} --css > styledown.css`,
-      `    ${cmd} --js > styledown.js`,
-  ].join('\n'))
-  process.exit()
-}
-
 if (args.version) {
   console.log(version)
   process.exit()
@@ -49,6 +27,26 @@ if (args.css) {
 
 if (args.conf) {
   print(Styledown.defaults.conf())
+  process.exit()
+}
+
+if (args.help || args._.length === 0) {
+  let cmd = basename(process.argv[1])
+  console.log([
+      'Usage:',
+      `    ${cmd} [options] FILE`,
+      '',
+      'Options:',
+      '    -h, --help           print usage information',
+      '    -v, --version        show version info and exit',
+      '    -i, --inline         force extracts from inline CSS comments (for piping)',
+      '    -o, --output FILE    write output a file',
+      '',
+      'Support files:',
+      `    ${cmd} --conf > config.md`,
+      `    ${cmd} --css > styledown.css`,
+      `    ${cmd} --js > styledown.js`,
+  ].join('\n'))
   process.exit()
 }
 
