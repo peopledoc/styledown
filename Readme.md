@@ -12,10 +12,6 @@ Write maintainable CSS styleguides efficiently using a Markdown.
  styledown --help
 ```
 
-[![npm version](http://img.shields.io/npm/v/styledown.svg?style=flat)](https://npmjs.org/package/styledown "View this project on npm")
-
-[example]: http://cdn.rawgit.com/styledown/styledown/v1.0.2/examples/bootstrap/index.html
-
 ## How it works
 
 Styledown is made to work in most web development setups. It doesn't favor any framework or language or any preprocessor.
@@ -69,7 +65,7 @@ files.
 
 .your-component-here {
   display: block;
-  ...
+  /*...*/
 }
 ```
 
@@ -86,8 +82,12 @@ lets you define what will be in the output head/body.
 ### Head
 
     link(rel="stylesheet" href="/assets/application.css")
-    link(rel='stylesheet' href='https://cdn.rawgit.com/styledown/styledown/v1.0.2/data/styledown.css')
-    script(src='https://cdn.rawgit.com/styledown/styledown/v1.0.2/data/styledown.js')
+    <style>
+      /* styledown css */
+    </style>
+    <script>
+      /* styledown js */
+    </script>
 
 ### Body
 
@@ -135,17 +135,3 @@ __Markdown mode:__ Takes Markdown files.
 ## Markup format
 
 Read more: **[Markup format ▸](docs/Format.md)**
-
-## :copyright:
-
-**Styledown** © 2013+, Rico Sta. Cruz. Released under the [MIT License].<br>
-Authored and maintained by Rico Sta. Cruz with help from [contributors].
-
-> [ricostacruz.com](http://ricostacruz.com) &nbsp;&middot;&nbsp;
-> GitHub [@rstacruz](https://github.com/rstacruz) &nbsp;&middot;&nbsp;
-> Twitter [@rstacruz](https://twitter.com/rstacruz)
-
-[MIT License]: http://mit-license.org/
-[contributors]: http://github.com/styledown/styledown/contributors
-[highlight.js]: http://highlightjs.org/
-[Jade]: http://jade-lang.com/
