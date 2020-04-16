@@ -6,7 +6,7 @@
     "css",
     "styleguide"
   ],
-  "version": "2.0.0",
+  "version": "2.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/peopledoc/styledown.git"
@@ -34,7 +34,7 @@
     "sinon": "^8.1.1"
   },
   "bin": {
-    "styledown": "./bin/styledown"
+    "styledown": "./bin/styledown.js"
   },
   "license": "MIT"
 }
