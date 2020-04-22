@@ -4,11 +4,12 @@ const template = `
 ### Button
 
     @example
+    img(src="foo.png")
     a.button
       | Hello
 `
 
-describe('jade', function() {
+describe('pug', function() {
   setupTestEnv(this)
 
   beforeEach(function() {
@@ -20,5 +21,10 @@ describe('jade', function() {
   it('example rendering', function() {
     expect(this.$("a.button").length).eql(1)
     expect(this.$("a.button").html()).eql("Hello")
+  })
+
+  it('selfclosing html tag has no "/" at the end', function() {
+    expect(/\/>/.test(this.html)).eql(false)
+    expect(/\/&gt;/.test(this.html)).eql(false)
   })
 })
