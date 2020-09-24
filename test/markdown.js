@@ -23,7 +23,7 @@ describe('Markdown', function() {
       expect(this.$).have.selector('p.sg')
     })
     it('html template', function() {
-      expect(this.html).match(/doctype html/)
+      expect(this.html).match(/!DOCTYPE html/)
       expect(this.html).match(/body/)
       expect(this.html).match(/head/)
       expect(this.$).have.selector('meta[charset="utf-8"]')
