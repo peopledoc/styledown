@@ -9,10 +9,10 @@ const Cheerio = require('cheerio')
 const extend = require('util')._extend
 const mdextract = require('mdextract')
 const hljs = require('highlight.js')
-const beautify = require('js-beautify').html_beautify
 const { version } = require('./package.json')
 const { readFileSync } = require('fs')
 const default_conf = require('./lib/default_conf.js')
+const { beautifyHTML } = require('./lib/utils')
 
 const {
   addClasses,
@@ -175,16 +175,9 @@ class Styledown {
 
   prettyprint(html, options) {
 
-    let opts = {
-      indent_size: this.options.indentSize,
-      wrap_line_length: 120,
-      unformatted: ['pre']
-    }
-    // js-beautify sometimes trips when the first character isn't a <. not
-    // sure... but might as well do this.
-    html = html.trim()
+    let output = html.trim()
 
-    let output = beautify(html, extend(opts, options))
+    output = beautifyHTML(html, options)
 
     // cheerio output tends to have a bunch of extra newlines. kill them.
     output = output.replace(/\n\n+/g, "\n\n")
