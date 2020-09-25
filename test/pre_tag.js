@@ -84,7 +84,7 @@ describe('Pre tag', function() {
       expect(this.$).have.selector('pre')
     })
     it('makes a <pre> HTML code', function() {
-      expect(this.$("pre").text()).eql('<div class="button"></div>')
+      expect(this.$("pre").text()).eql('<div class="button"></div>\n')
     })
   })
 })

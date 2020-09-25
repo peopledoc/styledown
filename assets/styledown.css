@@ -136,6 +136,8 @@ code.sg {
  */
 
 .sg-code {
+  max-height: 20vw;
+
   border: solid 1px transparent;
   overflow-x: auto;
   border-bottom-left-radius: 3px;
