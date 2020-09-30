@@ -1,5 +1,5 @@
 const setupTestEnv = require('./setup')
-const { run, pipe, success } = require('./helpers/cli')
+const { run, success } = require('./helpers/cli')
 const {randomfile} = require('./helpers/file')
 const fs = require('fs')
 const { version } = require('../package.json')
