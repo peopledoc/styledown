@@ -67,7 +67,12 @@ class Styledown {
 
       html = $.html()
     }
-    return this.prettyprint(html, { wrap_line_length: 0, ...config })
+    html = html.trim()
+
+    // cheerio output tends to have a bunch of extra newlines. kill them.
+    html = html.replace(/\n\n+/g, "\n\n")
+
+    return html
   }
 
   /**
@@ -139,11 +144,12 @@ class Styledown {
   process(raws, options) {
     return raws.map((raw) => {
       let $ = Cheerio.load(raw.html)
+      let config = processConfig(raw.src, options)
+      removeConfig($)
+
       let highlightHTML = this.highlightHTML.bind(this)
       let p = this.prefix.bind(this)
 
-      let config = processConfig(raw.src, options)
-      removeConfig($)
 
       // let pre = this.options.prefix
 
@@ -165,25 +171,24 @@ class Styledown {
     })
   }
 
-  /**
-   * prettyprint() : doc.prettyprint(html)
-   * (private) Reindents given `html` based on the indent size option.
-   *
-   *     doc.prettyprint('<div><a>hello</a></div>')
-   *     => "<div>\n  <a>hello</a>\n</div>"
-   */
+  // no use at the moment
+  // /**
+  //  * prettyprint() : doc.prettyprint(html)
+  //  * (private) Reindents given `html` based on the indent size option.
+  //  *
+  //  *     doc.prettyprint('<div><a>hello</a></div>')
+  //  *     => "<div>\n  <a>hello</a>\n</div>"
+  //  */
 
-  prettyprint(html, options) {
+  // prettyprint() {
+  //   let html = this.toHTML()
 
-    let output = html.trim()
+  //   let config = this.raws.reduce((finalConfig, raw) => {
+  //     return extend(finalConfig, raw.config)
+  //   }, this.options)
 
-    output = beautifyHTML(html, options)
-
-    // cheerio output tends to have a bunch of extra newlines. kill them.
-    output = output.replace(/\n\n+/g, "\n\n")
-
-    return output
-  }
+  //   return beautifyHTML(html, { config })
+  // }
 
   /**
    * highlightHTML():
@@ -191,7 +196,7 @@ class Styledown {
    */
 
   highlightHTML(html) {
-    html = this.prettyprint(html)
+    html = beautifyHTML(html)
     return hljs.highlight('html', html).value
   }
 
@@ -247,6 +252,7 @@ class Styledown {
 Styledown.parse = function (source, options) {
   return new Styledown(source, options).toHTML()
 }
+
 
 /**
  * Styledown.version:

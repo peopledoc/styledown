@@ -11,32 +11,17 @@ describe('Pretty Print', function() {
       })
     })
 
-    it('indent <head>', function() {
-      expect(this.html).match(/\n {2}<head/)
+    it('no indent for <head>', function() {
+      expect(this.html).match(/\n<head/)
     })
-    it('indent <body>', function() {
-      expect(this.html).match(/\n {2}<body/)
+    it('no indent for <body>', function() {
+      expect(this.html).match(/\n<body/)
     })
-    it('indent .sg-section-hello', function() {
-      expect(this.html).match(/\n {6}<section class="sg-block sg-section-hello/)
-    })
-    it('indent .sg-canvas', function() {
-      expect(this.html).match(/\n {10}<div class="sg-canvas/)
-    })
-  })
-
-  describe('custom indentSize', function() {
-    beforeEach(function() {
-      this.load("### Hello\n\n    @example\n    div", {
-        tabWidth: 4
-      })
-    })
-
     it('indent .sg-section-hello', function() {
       expect(this.html).match(/<section class="sg-block sg-section-hello/)
     })
     it('indent .sg-canvas', function() {
-      expect(this.html).match(/\n {8}<div class="sg-canvas/)
+      expect(this.html).match(/<div class="sg-canvas/)
     })
   })
 })
