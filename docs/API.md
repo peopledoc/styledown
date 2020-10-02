@@ -6,7 +6,7 @@ Styledown API
 Styledown is available as a Node.js package.
 
 ```js
-var Styledown = require('styledown');
+var Styledown = require('@peopledoc/styledown');
 ```
 
 ### Styledown.parse()
