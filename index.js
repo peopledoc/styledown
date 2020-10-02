@@ -1,7 +1,7 @@
 /**
  * Styledown is available as a Node.js package.
  *
- *     let Styledown = require('styledown');
+ *     let Styledown = require('@peopledoc/styledown');
  */
 
 const Marked = require('marked')
