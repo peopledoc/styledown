@@ -21,23 +21,54 @@
     code.classList.add('sg-hidden')
 
     // create the <button>
-    let button = document.createElement('button')
+    let buttonTop = document.createElement('button')
     // Need to link code section and button
-    button.setAttribute('aria-label', 'Reveal code block')
-    button.setAttribute('aria-live', 'polite')
-    button.classList.add('sg-expando', 'sg-expando-reveal')
-    parent.appendChild(button)
+    buttonTop.setAttribute('aria-label', 'Reveal code block')
+    buttonTop.setAttribute('aria-live', 'polite')
+    buttonTop.classList.add('sg-expando', 'sg-expando-reveal')
 
-    button.addEventListener('click', function () {
-      if (code.className.indexOf('sg-hidden') !== -1) {
-        button.setAttribute('aria-label', 'Hide code block')
-        code.className = code.className.replace('sg-hidden', 'sg-visible')
-        button.className  = button.className.replace('sg-expando-reveal', 'sg-expando-contract')
-      } else {
-        button.setAttribute('aria-label', 'Reveal code block')
-        code.className = code.className.replace('sg-visible', 'sg-hidden')
-        button.className  = button.className.replace('sg-expando-contract', 'sg-expando-reveal')
+    // create a second <button> that will appear AFTER the code block
+    let buttonBottom = buttonTop.cloneNode(true)
+
+    // bind event listeners
+    buttonTop.addEventListener('click', toggleCodeBlock)
+    buttonBottom.addEventListener('click', toggleCodeBlock)
+
+    // insert elements
+    parent.insertBefore(buttonTop, code)
+    parent.appendChild(buttonBottom)
+  }
+
+  function toggleCodeBlock(event) {
+    let { parentNode } = event.currentTarget
+    let buttons = parentNode.querySelectorAll('.sg-expando')
+    let codeBlock = parentNode.querySelector('.sg-code')
+
+    if (codeBlock.classList.contains('sg-hidden')) {
+
+      codeBlock.classList.replace('sg-hidden', 'sg-visible')
+      buttonsShouldNowReveal(buttons, false)
+
+    } else {
+
+      codeBlock.classList.replace('sg-visible', 'sg-hidden')
+      buttonsShouldNowReveal(buttons)
+
+    }
+  }
+
+  function buttonsShouldNowReveal(elems = [], shouldReveal = true) {
+    [].forEach.call(elems, function (elem) {
+      let ariaLabel = 'Hide code block'
+      let classes   = ['sg-expando-reveal', 'sg-expando-contract']
+
+      if (shouldReveal) {
+        ariaLabel = 'Reveal code block'
+        classes.reverse()
       }
+
+      elem.setAttribute('aria-label', ariaLabel)
+      elem.classList.replace(...classes)
     })
   }
 

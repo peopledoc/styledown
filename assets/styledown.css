@@ -228,10 +228,12 @@ code.sg {
   content: '\2715';
   top: -1px;
 }
-.sg-expando-contract {
-  margin-top: 20px;
-}
-/*
- * hover behavior
- */
 
+.sg-code {
+  margin: 20px 0;
+}
+
+/* Only hide toggle buttons placed after a hidden code block */
+.sg-code.sg-hidden + .sg-expando {
+  display: none;
+}
