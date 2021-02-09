@@ -21,7 +21,7 @@ surround your code in a code fence, and it will be highlighted via
 ``` html
 <p>See this code:</p>
 
-<pre class="sg-lang-javascript">
+<pre class="sg-language-javascript">
 $(<span class='hljs-function'>function</span>() {
    alert(<span class='hljs-string'>"hello"</span>);
 });
