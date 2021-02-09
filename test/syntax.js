@@ -15,7 +15,7 @@ describe('Syntax highlight', function() {
       expect(this.$).have.selector('pre .hljs-name')
     })
     it('set correct pre class', function() {
-      expect(this.$).have.selector('pre.sg-lang-html')
+      expect(this.$).have.selector('pre.sg-language-html')
     })
   })
   describe('examples', function() {

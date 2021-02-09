@@ -31,7 +31,7 @@ describe('Prefix', function() {
        expect(this.$('.styleguide-block')).have.length(1)
     })
   })
-   describe('inline options', function() {
+  describe('inline options', function() {
     beforeEach(function() {
        this.load("## Hello\n### world\nthere\n\n# Styleguide options\n\n* prefix: styleguide", {
         head: ''
