@@ -6,7 +6,7 @@
     "css",
     "styleguide"
   ],
-  "version": "3.0.2",
+  "version": "4.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/peopledoc/styledown.git"
