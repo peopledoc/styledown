@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "cheerio": "^0.22.0",
-    "highlight.js": "^10.7.1",
+    "highlight.js": "^10.7.2",
     "js-beautify": "^1.13.5",
-    "marked": "^2.0.1",
+    "marked": "^2.0.3",
     "mdextract": "^1.0.0",
     "minimist": "^1.2.0",
     "prettier": "^2.2.1",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.4",
-    "eslint": "^7.23.0",
+    "eslint": "^7.24.0",
     "eslint-config-peopledoc": "^2.0.2",
     "mocha": "^8.3.2",
     "sinon": "^10.0.0"
