@@ -23,7 +23,7 @@
     "marked": "^2.0.3",
     "mdextract": "^1.0.0",
     "minimist": "^1.2.0",
-    "prettier": "^2.2.1",
+    "prettier": "2.3.0",
     "pug": "^3.0.2",
     "read-input": "^0.3.0"
   },
