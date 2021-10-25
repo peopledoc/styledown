@@ -196,8 +196,10 @@ class Styledown {
    */
 
   highlightHTML(html) {
-    html = beautifyHTML(html)
-    return hljs.highlight('html', html).value
+    let newHtml = beautifyHTML(html)
+    let code = hljs.highlight(newHtml, { language: 'html' })
+
+    return code.value
   }
 
   /**
