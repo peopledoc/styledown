@@ -7,6 +7,10 @@
     "styleguide"
   ],
   "version": "4.1.0",
+  "author": {
+    "name": "PeopleDoc",
+    "url": "https://github.com/peopledoc"
+  },
   "homepage": "https://github.com/peopledoc/styledown",
   "repository": "https://github.com/peopledoc/styledown",
   "bugs": "https://github.com/peopledoc/styledown/issues",
