@@ -2,8 +2,10 @@
   "name": "@peopledoc/styledown",
   "description": "Markdown-based styleguide generator",
   "keywords": [
-    "markdown",
     "css",
+    "generator",
+    "maintainable",
+    "markdown",
     "styleguide"
   ],
   "version": "4.1.0",
