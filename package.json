@@ -1,17 +1,26 @@
 {
   "name": "@peopledoc/styledown",
   "description": "Markdown-based styleguide generator",
+  "version": "4.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "PeopleDoc",
+    "url": "https://github.com/peopledoc"
+  },
+  "homepage": "https://github.com/peopledoc/styledown",
+  "repository": "https://github.com/peopledoc/styledown",
+  "bugs": "https://github.com/peopledoc/styledown/issues",
   "keywords": [
-    "markdown",
     "css",
+    "generator",
+    "maintainable",
+    "markdown",
     "styleguide"
   ],
-  "version": "4.1.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/peopledoc/styledown.git"
-  },
   "main": "index",
+  "bin": {
+    "styledown": "./bin/styledown.js"
+  },
   "scripts": {
     "test": "mocha -R progress",
     "lint:js": "eslint ."
@@ -33,9 +42,5 @@
     "eslint-config-peopledoc": "^2.0.2",
     "mocha": "^9.0.3",
     "sinon": "^11.1.2"
-  },
-  "bin": {
-    "styledown": "./bin/styledown.js"
-  },
-  "license": "MIT"
+  }
 }
