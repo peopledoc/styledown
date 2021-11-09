@@ -139,4 +139,42 @@ Read more: **[Markup format ▸](docs/Format.md)**
 ## Contributors
 
 <!-- readme: contributors -start -->
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/rstacruz">
+            <img src="https://avatars.githubusercontent.com/u/74385?v=4" width="100;" alt="rstacruz"/>
+            <br />
+            <sub><b>rstacruz</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/KamiKillertO">
+            <img src="https://avatars.githubusercontent.com/u/9579729?v=4" width="100;" alt="KamiKillertO"/>
+            <br />
+            <sub><b>KamiKillertO</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/ryuran">
+            <img src="https://avatars.githubusercontent.com/u/1309340?v=4" width="100;" alt="ryuran"/>
+            <br />
+            <sub><b>ryuran</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/MrChocolatine">
+            <img src="https://avatars.githubusercontent.com/u/47531779?v=4" width="100;" alt="MrChocolatine"/>
+            <br />
+            <sub><b>MrChocolatine</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Erol">
+            <img src="https://avatars.githubusercontent.com/u/20772?v=4" width="100;" alt="Erol"/>
+            <br />
+            <sub><b>Erol</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: contributors -end -->
