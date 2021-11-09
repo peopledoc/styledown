@@ -135,3 +135,8 @@ __Markdown mode:__ Takes Markdown files.
 ## Markup format
 
 Read more: **[Markup format ▸](docs/Format.md)**
+
+## Contributors
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
