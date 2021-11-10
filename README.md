@@ -180,6 +180,13 @@ Read more: **[Markup format ▸](docs/Format.md)**
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/GreatWizard">
+            <img src="https://avatars.githubusercontent.com/u/1322081?v=4" width="100;" alt="GreatWizard"/>
+            <br />
+            <sub><b>GreatWizard</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/Erol">
             <img src="https://avatars.githubusercontent.com/u/20772?v=4" width="100;" alt="Erol"/>
             <br />
