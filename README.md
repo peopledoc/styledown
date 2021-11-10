@@ -3,13 +3,24 @@
 Write maintainable CSS styleguides efficiently using a Markdown.
 **[See example ▸][example]**
 
-[![Example](https://cdn.rawgit.com/styledown/styledown/81a1d9c/examples/screenshot.png)][example]
+[![Example](https://raw.githubusercontent.com/peopledoc/styledown/master/examples/screenshot.png)][example]
+
+ℹ️ This package is forked from [Styledown](https://github.com/styledown/styledown).
 
 ## Installation
 
+Add the github registry in your `.npmrc` for @peopledoc scoped package:
+
+```
+# Points to Github NPM registry
+@peopledoc:registry=https://npm.pkg.github.com
+````
+
+Then you can install it:
+
 ``` bash
- npm install -g styledown
- styledown --help
+npm install -g @peopledoc/styledown
+styledown --help
 ```
 
 ## How it works
