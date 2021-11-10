@@ -1,9 +1,8 @@
 # Styledown
 
 Write maintainable CSS styleguides efficiently using a Markdown.
-**[See example ▸][example]**
 
-[![Example](https://raw.githubusercontent.com/peopledoc/styledown/master/examples/screenshot.png)][example]
+![Example](https://raw.githubusercontent.com/peopledoc/styledown/master/examples/screenshot.png)
 
 ℹ️ This package is forked from [Styledown](https://github.com/styledown/styledown).
 
