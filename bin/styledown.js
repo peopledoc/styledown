@@ -45,7 +45,7 @@ if (args.help || args._.length === 0) {
       'Support files:',
       `    ${cmd} --conf > config.md`,
       `    ${cmd} --css > styledown.css`,
-      `    ${cmd} --js > styledown.js`,
+      `    ${cmd} --js > styledown.js`
   ].join('\n'))
   process.exit()
 }
@@ -71,7 +71,7 @@ read(args._, function (err, res) {
   print(html, ms)
 })
 
-function print (html, ms) {
+function print(html, ms) {
   if (args.output) {
     writeFileSync(args.output, html)
 
@@ -85,7 +85,7 @@ function print (html, ms) {
   }
 }
 
-function measure (fn) {
+function measure(fn) {
   let d = new Date()
   fn()
   return new Date() - d

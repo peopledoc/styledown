@@ -5,24 +5,24 @@ const template = `
 there
 `
 
-describe('Markdown', function() {
+describe('Markdown', function () {
   setupTestEnv(this)
 
-  describe('with template', function() {
-    beforeEach(function() {
+  describe('with template', function () {
+    beforeEach(function () {
       this.load(template, {
         head: ''
       })
     })
-    it('text', function() {
+    it('text', function () {
       expect(this.$("h1").text()).eql('Hello')
       expect(this.$("p").text()).eql('there')
     })
-    it('classnames', function() {
+    it('classnames', function () {
       expect(this.$).have.selector('h1.sg')
       expect(this.$).have.selector('p.sg')
     })
-    it('html template', function() {
+    it('html template', function () {
       expect(this.html).match(/!doctype html/)
       expect(this.html).match(/body/)
       expect(this.html).match(/head/)
@@ -30,15 +30,15 @@ describe('Markdown', function() {
       expect(this.$("title").text().length).gt(0)
     })
   })
-  describe('bare', function() {
-    beforeEach(function() {
+  describe('bare', function () {
+    beforeEach(function () {
       this.load(template)
     })
-    it('text', function() {
+    it('text', function () {
       expect(this.$("h1").text()).eql('Hello')
       expect(this.$("p").text()).eql('there')
     })
-    it('classnames', function() {
+    it('classnames', function () {
       expect(this.$).have.selector('h1.sg')
       expect(this.$).have.selector('p.sg')
     })

@@ -15,13 +15,13 @@ hello
 ### Head
     <meta>
 `
-describe('Template', function() {
+describe('Template', function () {
   setupTestEnv(this)
 
-  beforeEach(function() {
+  beforeEach(function () {
     this.load(template)
   })
-  it('renders the template', function() {
+  it('renders the template', function () {
     expect(this.html).include('<woop>')
   })
 })
