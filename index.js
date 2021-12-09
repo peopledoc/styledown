@@ -4,7 +4,7 @@
  *     let Styledown = require('@peopledoc/styledown');
  */
 
-const Marked = require('marked')
+const { marked } = require('marked')
 const Cheerio = require('cheerio')
 const extend = require('util')._extend
 const mdextract = require('mdextract')
@@ -92,7 +92,7 @@ class Styledown {
   /**
    * @typedef ParsedFile
    * @property {string} filePath - Path to the file relative to process.cwd()
-   * @property {string} html - file content converted to html using Marked
+   * @property {string} html - file content converted to html using marked
    * @property {string} raw - File content without the css/scss...
    */
   /**
@@ -108,7 +108,7 @@ class Styledown {
     if (typeof src === 'string') {
       return [{
         filePath: '.',
-        html: Marked(src),
+        html: marked(src),
         src
       }]
     }
@@ -119,14 +119,14 @@ class Styledown {
           let src = mdextract(file.data, { lang: 'css' }).toMarkdown()
           return {
             filePath: file.name,
-            html: Marked(src),
+            html: marked(src),
             src
           }
         } else {
           return {
             filePath: file.name,
             src: file.data,
-            html: Marked(file.data)
+            html: marked(file.data)
           }
         }
       })
