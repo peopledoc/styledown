@@ -83,7 +83,7 @@ class Styledown {
    *     => "<div><h3>Your document</h3>..."
    */
 
-  toBareHTML () {
+  toBareHTML() {
     return this.raws.reduce((html, raw) => {
       return `${html}${raw.html}`
     }, '')
@@ -273,13 +273,13 @@ Styledown.version = version
  */
 
 Styledown.defaults = {
-  conf () {
+  conf() {
     return default_conf
   },
-  js () {
+  js() {
     return readFileSync(`${__dirname  }/assets/styledown.js`)
   },
-  css () {
+  css() {
     return readFileSync(`${__dirname  }/assets/styledown.css`)
   }
 }

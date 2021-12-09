@@ -1,9 +1,9 @@
 const setupTestEnv = require('./setup')
 
-describe('Wrapping', function() {
+describe('Wrapping', function () {
   setupTestEnv(this)
 
-  it('bare h2', function() {
+  it('bare h2', function () {
     this.load("## hello", {
       bare: true
     })
@@ -12,7 +12,7 @@ describe('Wrapping', function() {
     expect(this.$(".sg-section.sg-section-hello").length).to.not.equal(0)
     expect(this.$(".sg-section:root").length).to.not.equal(0)
   })
-  it('bare h3', function() {
+  it('bare h3', function () {
     this.load("### hello", {
       bare: true
     })
@@ -21,7 +21,7 @@ describe('Wrapping', function() {
     expect(this.$(".sg-block.sg-section-hello").length).to.not.equal(0)
     expect(this.$(".sg-block:root").length).to.not.equal(0)
   })
-  it('mixed case wrapping', function() {
+  it('mixed case wrapping', function () {
     this.load(`
 ### button
 

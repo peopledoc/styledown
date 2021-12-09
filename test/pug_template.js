@@ -18,22 +18,22 @@ hello
     #hello(sg-content)
 `
 
-describe('Pug Templates', function() {
+describe('Pug Templates', function () {
   setupTestEnv(this)
 
-  describe('head', function() {
-    beforeEach(function() {
+  describe('head', function () {
+    beforeEach(function () {
       this.load(templateHead)
     })
-    it('render script', function() {
+    it('render script', function () {
       expect(this.$('script[src="helloworld.js"]')).have.length(1)
     })
   })
-  describe('body', function() {
-    beforeEach(function() {
+  describe('body', function () {
+    beforeEach(function () {
       this.load(templateBody)
     })
-    it('render body', function() {
+    it('render body', function () {
       expect(this.$('#hello')).have.length(1)
     })
   })

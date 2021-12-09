@@ -16,7 +16,7 @@
     }
   })
 
-  function addCodeToggleButton (parent, code) {
+  function addCodeToggleButton(parent, code) {
     // hide the <pre>
     code.classList.add('sg-hidden')
 
