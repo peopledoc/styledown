@@ -28,7 +28,7 @@
   "dependencies": {
     "cheerio": "^0.22.0",
     "highlight.js": "^11.3.1",
-    "marked": "^4.0.7",
+    "marked": "^4.0.9",
     "mdextract": "^1.0.0",
     "minimist": "^1.2.0",
     "prettier": "2.5.1",
