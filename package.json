@@ -30,7 +30,7 @@
     "highlight.js": "^11.4.0",
     "marked": "^4.0.12",
     "mdextract": "^1.0.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "prettier": "2.5.1",
     "pug": "^3.0.2",
     "read-input": "^0.3.0"
