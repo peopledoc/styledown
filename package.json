@@ -26,7 +26,7 @@
     "lint:js": "eslint ."
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.12",
     "highlight.js": "^11.4.0",
     "marked": "^4.0.12",
     "mdextract": "^1.0.0",
